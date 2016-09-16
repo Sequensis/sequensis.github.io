@@ -4,6 +4,12 @@ title: Categories
 permalink: /
 sitemap: false
 ---
+## Introduction
+
+This site describes the agreed guidelines for the way that we develop software at Sequensis. The contents of this site are subject to change and always up for debate, and remember: 
+
+![disclaimer](/images/disclaimer.gif){: .center-image }
+
 
 {% assign categories = site.categories | sort %}
 {% for category in categories %}
