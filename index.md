@@ -1,8 +1,8 @@
 ---
 layout: page
-#title: Categories
 permalink: /
 sitemap: false
+title: Coding Standards
 ---
 ## Introduction
 
