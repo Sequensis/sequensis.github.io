@@ -14,3 +14,17 @@ DataDog dashboards
 # Services
 
 ...
+
+# Full Journeys
+
+![alt text](http://i63.tinypic.com/r02ovt.png "DataDog Journey Board")
+
+A journey refers to a route a customer can take through Likely Loans. In order to check on the health of each of these routes we currently make Datadog dashboards which include any alert that may suggest the journey is compromised.
+
+Above is an image of the template in DataDog that can be cloned and adapted to suit a particular journey. A few aspects of it have markers on:
+
+1) An image can be placed here representing the jorney being monitored
+
+2) The top row represents services which are essential both for the journey being monitored and the most basic application route. The second row represents services which are only needed for this particular journry. This section currently only shows the health of production, with OK (up) or ERR (down) statuses.
+
+3) The rest of the board is for monitoring anything we should be alerting against. For instance, API's, services and databases would be shown here. Each of these would have monitors representing an aspect that would demonstrate problems in our systems in certain conditions. We only alert on what we can act on and what may pose a danger to our system or inconvienience to our customer. We do not monitor things on these boards as a matter of pure interest. For advise on what to monitor and alert on by our standard practices see the above sections.
