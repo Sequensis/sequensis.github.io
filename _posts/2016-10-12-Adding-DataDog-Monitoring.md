@@ -7,15 +7,39 @@ categories: API-Clients
 This document covers the standard procedure for using DataDog in your project and making
 DataDog dashboards
 
-# API's
+# Adding monitoring
 
-...
+When adding monitoring instrumentation must be added to the services to be monitored. After this these should be added in the agentmanager.exe on the boxes they live on for all environments. For more guidance on this you will have to ask internally.
 
-# Services
+# Standard Monitoring For API's
 
-...
+#### Query Values
 
-# Full Journeys
+1. Average Response Time (24Hrs) Configurable by Environment
+    * Error is set at >500ms, Warning at >350ms
+ 
+    
+2. Average Requests (24Hrs) Configurable By Enviroment
+    * Error is set at *TBD*, Warning at *TBD*
+
+#### Graphs
+
+1. Average Response Time (24Hrs) Configurable by Environment Time Series
+    * Error is set at >500ms, Warning at >350ms
+
+    ![alt text](http://i63.tinypic.com/2u6jjwz.png "Timeseries")
+
+2. Average Requests (24Hrs) Configurable By Enviroment Heat Map
+    * Error is set at *TBD*, Warning at *TBD*
+    
+    ![alt text](http://i65.tinypic.com/29dbsm1.png "Heat Map")
+    
+
+# Standard Monitoring For Services
+
+Services are currently monitored for if they are up or down.
+
+# Monitoring Full Journeys
 
 ![alt text](http://i63.tinypic.com/r02ovt.png "DataDog Journey Board")
 
