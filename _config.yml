@@ -16,7 +16,7 @@
 title: Sequensis
 email: info@sequensis.co.uk
 description: > # this means to ignore newlines until "baseurl:"
-  Sequensis Coding Standards
+  Sequensis Coding Style Guide
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://sequensis.github.io" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
