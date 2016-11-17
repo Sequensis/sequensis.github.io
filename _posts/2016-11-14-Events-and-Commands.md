@@ -35,13 +35,13 @@ Refer to the [NServiceBus Website on events and commands] for a more detailed gu
 ### 1. Preference for Events
 In general we should prefer using events over commands, although there are specific use cases where commands should be used. The reasons for this are as follows:
 
-#### 1. **Flexibility**: 
+#### 1.1 **Flexibility**: 
 Events give more flexibility and extensibility, as they can be subscribed to make other services in future use cases. Commands are much stricter and only satisfy a single use case.
 
-#### 2. **Domain Centric Language**:  
+#### 1.2 **Domain Centric Language**:  
 Events encourage a richer, more domain driven language, describing things that have happened / are happening. Commands tend to be more asking specific components to do specific things.
 
-#### 3. **Coupling**: 
+#### 1.3 **Coupling**: 
 Whilst using a service bus does technically decouple our implementations,  commands tend to drive a more tightly coupled architecture, as service depend on one another more. Events encourage more loosely coupled architecture as components have less knowledge of one another. 
 
 ### 2. Event Guidelines
