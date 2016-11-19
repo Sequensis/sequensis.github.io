@@ -47,9 +47,10 @@ Whilst using a service bus does technically decouple our implementations,  comma
 ### 2. Event Guidelines
 The following is some high level guidelines on the usage of events:
 
-#### 2.1. **Domain Naming Representation**: Thought needs to be given to the naming of events, to clearly explain what has happened in the domain. For example 
-	- It is ok to raise an event called ApplicantUnsubscribed before the action has taken place in the database as it represents that the applicant has indicated they wish to unsubscribe. This is an event representing something that has happened in the domain, even if the wider system has not yet processed it. *This point is highlighted for discussion*
-	- It is not ok to raise an event saying EmailSent before an email has actually been sent, as this is not representing what has actually happened in the domain.
+#### 2.1. **Domain Naming Representation**
+Thought needs to be given to the naming of events, to clearly explain what has happened in the domain. For example 
+- It is ok to raise an event called ApplicantUnsubscribed before the action has taken place in the database as it represents that the applicant has indicated they wish to unsubscribe. This is an event representing something that has happened in the domain, even if the wider system has not yet processed it. *This point is highlighted for discussion*
+- It is not ok to raise an event saying EmailSent before an email has actually been sent, as this is not representing what has actually happened in the domain.
 	
 #### 2.2 **Context Boundary**
 The namespace portion of the event is actually part of the event name that implies context. For example:
