@@ -27,7 +27,7 @@ know what issue you want to pick up and we will accept and label it as claimed.
 
 #### How to approve a PR.
 
-![alt text](https://github.com/Sequensis/sequensis.github.io/tree/master/images/readme1.jpg "Pip-Boy")
+![alt text](/images/pipboy.jpg) "Pip-Boy")
 
 - Go to the 'Pull Request' tab.
 - Let a shiny one catch your eye and select it.
