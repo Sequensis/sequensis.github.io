@@ -49,7 +49,7 @@ The following is some high level guidelines on the usage of events:
 
 #### 2.1. **Domain Naming Representation**
 Thought needs to be given to the naming of events, to clearly explain what has happened in the domain. For example 
-- It is ok to raise an event called ApplicantUnsubscribed before the action has taken place in the database as it represents that the applicant has indicated they wish to unsubscribe. This is an event representing something that has happened in the domain, even if the wider system has not yet processed it. *This point is highlighted for discussion*
+- It is ok to raise an event called UnsubscribeApplicantRequested before the action has taken place in the database as it represents that the applicant has indicated they wish to unsubscribe. This is an event representing something that has happened in the domain, even if the wider system has not yet processed it.
 - It is not ok to raise an event saying EmailSent before an email has actually been sent, as this is not representing what has actually happened in the domain.
 	
 #### 2.2 **Context Boundary**
@@ -58,11 +58,19 @@ The namespace portion of the event is actually part of the event name that impli
 	
 #### 2.3 **Naming Specificity**
 A preference for specific messages vs general message with discriminator, for example:
-- A general message with discriminator might be ApplicationCreated with a property of ApplicationType (PersonalLoan, TopUpLoan, HirePurchase etc).
-- Specific messages would be PersonalLoanApplicationCreated, TopUpLoanApplicationCreated etc
+- A general message with discriminator might be ApplicationStatusChanged with a property of Reason (Declined, Approved etc).
+- Specific messages would be ApplicationDeclined, ApplicationApproved etc
+
+**Reasoning**
+- General messages introduce unnecessary branching logic in handlers, which would be better addressed by handling a specific event
+- General messages introduce more traffic, as interested components are required to subscribe to the higher level event (and therefore all instances that are raised), whereas specific messages allow interested components to only subscribe in the specific messages they need.
+
+#### 2.4 **Event Ownership**
+- Event ownership is denoted by the namespace they exist within, for example the TopUpLoanService.ApplicationCreated event is owned by the TopUpLoanService. 
+- Events can only be raised by the owner of that event. In the above example only the TopUpLoanService can raise the TopUpLoanService.ApplicationCreated event.
 
 ### 3. Command Guidelines
-Given that commands are limited in flexibility they should always:
+Commands are generally used to introduce stability and leverage standard errors handling / retries. Therefore given that commands are limited in flexibility they should always:
 
 #### 3.1 **Atomic Operations**
 Be atomic and transactional (i.e. used to wrap low level operations)
@@ -72,29 +80,31 @@ Wrap a single action. (where action represents something that changes a resource
 
 The following is some guidelines to when it might be appropriate to use commands.
 
-#### 3.3 **Anti-Corruption Layers**
-The usage of commands in ACLs is ok as they're designed to act as a bridge between different contexts. For example:
-- The DecisionDataTranslationService is an ACL that translates various domain centric events into commands for the decision engine.
-
-#### 3.4 **Multi-Step Process**
+#### 3.3 **Multi-Step Process**
 The use of internal commands to break down multi-step in event handlers is ok. For example
 - The HighLevelChecksPassedEventHandler might call the Experian bureau service, but persist the data using an internal StoreExperianBureauResultCommand. This isolates the performance of the request, from any failures in the saving of the data.
 
-#### 3.5 **Isolate Resource**: 
+#### 3.4 **Isolate Resource**: 
 The use of commands to isolate an specific resource is also ok, for example:
 - A command such as SendEmail to isolate the email sending functionality.
 
-#### 3.6 **Co-ordinating Event Handler**:  
+#### 3.5 **Co-ordinating Event Handler**:  
 The use of internal commands with a co-ordinating event handler as opposed to multiple event handlers is preferred. In this case there would be a single event handler that would raise several internal commands, and therefore just act as a co-ordinator. For example:
 - The ExperianBureauService handles the HighLevelChecksPassed event and raises commands to perform the ExperianBureauSearch and ExperianAuthenticateSearch.
+
+**Reasoning**
+- The main risk in having several event handlers in the same host is that if one event handler fails, all are retried. This increases the risk of double handling. Whilst there is a risk of a co-ordinating handler failing part way through, it is less likely than event handlers that execute actual business logic.
+- Regardless of the approach, idemptoency needs to be considered and accounted for accordingly.
 
 ### 4. Other Considerations
 
 #### 4.1 **Idempotency**
-All handlers should be idempotent, where through the NServiceBus outbox, the idempotency manager or other means.
+All handlers should be idempotent, whether through the NServiceBus outbox, the idempotency manager or other means.
 
 #### 4.2 **Retry policies**
 Consideration should be given to retry policies and what exceptions are thrown within handlers. For example, a timeout exception might be ok as a retry might fix the issue, whereas an argument null exception probably isn't as retrying wouldn't fix the null argument.
+
+**TBD: Follow up with guidelines around how to throw an exception that forces the event to the error queue**
 
 #### 4.3 **Poison message handling**
 Thought needs to be given to poison messages when handling validation and throwing exceptions. i.e. throwing exceptions that retries cannot fix should be avoided. For a full definition of poison messages see [poison message definition]
