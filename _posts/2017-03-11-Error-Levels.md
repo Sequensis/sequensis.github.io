@@ -84,8 +84,8 @@ Again, the Trace level is not a level of logging I personally have used much. I 
 ### In conclusion..
 
 As mentioned throughout, how to use logging levels is not something that is completely concrete. In this article, I have explored my interpretation of
-what the levels mean and how to use them. This is from how I would use them in my job as a developer, but also from reading other peoples useage. Please send me any 
-resources on the topic, or experiences that you have found useful.
+what the levels mean and how to use them. At Oakbrook I think Fatal, Error, Debug and Verbose are the most useful for us.
+
 
 ### References
 
